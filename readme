@@ -1,0 +1,13 @@
+We will run a command in the terminal :-
+npm install bcryptjs jsonwebtoken dotenv
+
+bcryptjs :- To verify password
+jsonwebtoken :- To verify password & generate token
+dotenv :- To manage Environment
+
+const { registerUser, loginUser } = require('../controllers/authController');
+ require('../controllers/authController'); to access the file
+
+ Creating a Frontend using the HTML CSS JAVASCRIPT
+
+ Connection String for mongo database :- "mongodb+srv://localhost5001/"

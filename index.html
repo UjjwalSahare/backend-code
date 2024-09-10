@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Backend and Frontend</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Enter Details Here</h2>
+        <form id="contactForm">
+            <!-- Make sure the id matches in both HTML and JavaScript -->
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="number" id="phone" placeholder="Phone" required>
+            <button type="submit">Submit</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle form submission
+            document.getElementById('contactForm').addEventListener('submit', async function (e) {
+                e.preventDefault(); // This Prevent page refresh on form submission
+
+                // Get form data
+                const name = document.getElementById('name')?.value; 
+                const email = document.getElementById('email')?.value;
+                const phone = document.getElementById('phone')?.value;
+
+                // Check if all elements 
+                if (!name || !email || !phone) {
+                    document.getElementById('message').textContent = 'All fields are required!';
+                    return;
+                }
+
+                // Sending this data to the backend using a POST request
+                try {
+                    const response = await fetch('http://localhost:3000/api/contacts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email, phone }) // Send form data
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        document.getElementById('message').textContent = 'Contact submitted successfully!';
+                    } else {
+                        document.getElementById('message').textContent = `Error: ${data.message}`;
+                    }
+                } catch (error) {
+                    document.getElementById('message').textContent = `Error: ${error.message}`;
+                }
+            });
+        });
+    </script>
+    <style>
+        
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #007BFF;
+}
+
+button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9em;
+    color: green;
+}
+
+p#error {
+    color: red;
+}
+
+    </style>
+</body>
+</html>
